@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auntiescousin — Roblox Developer Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-glass.css">
+    <link rel="stylesheet" href="styles-advanced.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Advanced Loading Screen -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-3d-container" id="preloader3D"></div>
+        <div class="preloader-3d-bar" id="preloader3DBar"></div>
+        <div class="system-log" id="systemLog">
+            <div class="log-line" data-stage="1">> BOOTING_KERNEL<span class="log-cursor">_</span></div>
+            <div class="log-line" data-stage="2" style="display: none;">> LOADING_MODULES<span class="log-cursor">_</span></div>
+            <div class="log-line" data-stage="3" style="display: none;">> ESTABLISHING_SECURE_CONNECTION<span class="log-cursor">_</span></div>
+        </div>
+        <div class="preloader-percentage" id="preloaderPercentage">0%</div>
+        <div class="preloader-split" id="preloaderSplit"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- WebGL Fluid Background -->
+    <canvas id="fluidCanvas" class="fluid-canvas"></canvas>
+
+    <!-- Physics Background Canvas -->
+    <canvas id="physicsCanvas" class="physics-canvas"></canvas>
+
+    <!-- Top Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-text">Auntiescousin</span>
+                <span class="brand-indicator"></span>
+            </div>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link magnetic-btn" data-section="hero">01. OVERVIEW</a>
+                <a href="#videoShowcase" class="nav-link magnetic-btn" data-section="videoShowcase">DEMO_REEL</a>
+                <a href="#stack" class="nav-link magnetic-btn" data-section="stack">02. STACK</a>
+                <a href="#contact" class="nav-link magnetic-btn" data-section="contact">03. CONTACT</a>
+            </div>
+            <button class="nav-command" id="commandTrigger" aria-label="Open command palette">
+                <span>⌘K</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar-nav" id="sidebarNav">
+        <div class="sidebar-track">
+            <div class="sidebar-indicator" id="sidebarIndicator"></div>
+        </div>
+        <div class="sidebar-links">
+            <a href="#hero" class="sidebar-link" data-section="hero" data-label="01">
+                <span class="sidebar-dot"></span>
+            </a>
+            <a href="#videoShowcase" class="sidebar-link" data-section="videoShowcase" data-label="DEMO">
+                <span class="sidebar-dot"></span>
+            </a>
+            <a href="#stack" class="sidebar-link" data-section="stack" data-label="02">
+                <span class="sidebar-dot"></span>
+            </a>
+            <a href="#contact" class="sidebar-link" data-section="contact" data-label="03">
+                <span class="sidebar-dot"></span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Command Terminal -->
+    <div class="command-terminal" id="commandTerminal" role="dialog" aria-hidden="true">
+        <div class="terminal-overlay"></div>
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-title">Developer Console</div>
+                <button class="terminal-close" id="terminalClose">×</button>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-prompt">
+                    <span class="prompt-symbol">$</span>
+                    <input type="text" class="terminal-input" id="terminalInput" placeholder="Type a command..." autocomplete="off" />
+                </div>
+                <div class="terminal-results" id="terminalResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content - Single Page Application -->
+    <main class="main-content">
+        <!-- 01. OVERVIEW Section -->
+        <section class="section hero" id="hero">
+            <div class="section-container">
+                <div class="hero-content">
+                    <div class="hero-header">
+                        <h1 class="hero-title ghost-text">
+                            <span class="title-line">SYSTEM_ARCHITECT</span>
+                            <span class="title-line title-sub">// Auntiescousin</span>
+                        </h1>
+                    <p class="hero-description ghost-text">
+                        I am a collegiate level developer entering my 2nd year of college. I mainly focus on networking, but spend my free time developing games & websites. I am GIAC certified & GIAC Scholarship Winner, know a plenty of languages and often participate in CTFs.
+                    </p>
+                    </div>
+                    <div class="live-stats" id="liveStats">
+                        <div class="stat-item">
+                            <span class="stat-label">Uptime:</span>
+                            <span class="stat-value">99.9%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Status:</span>
+                            <span class="stat-value stat-ready">Ready for Commission</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Current_Region:</span>
+                            <span class="stat-value" id="currentRegion">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="hero-cta">
+                        <button class="btn btn-primary magnetic-btn" id="codePreviewBtn">
+                            <span>[ View Source ]</span>
+                            <div class="code-preview-popup" id="codePreviewPopup">
+                                <pre><code>local function OptimizeRaycast(origin, direction, params)
+    local results = workspace:Raycast(origin, direction, params)
+    if results then
+        return results.Position, results.Instance
+    end
+    return nil
+end</code></pre>
+                            </div>
+                        </button>
+                        <a href="#stack" class="btn btn-secondary magnetic-btn">View Stack</a>
+                    </div>
+                </div>
+                <div class="hero-visual" id="heroVisual">
+                    <div class="octahedron-container" id="octahedronContainer"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof Ticker -->
+        <section class="section ticker-section" id="ticker">
+            <div class="ticker-container">
+                <div class="ticker-label">Trusted by</div>
+                <div class="ticker-track" id="tickerTrack">
+                    <div class="ticker-item">Onikatsu Studios</div>
+                    <div class="ticker-item">Kagura Studios</div>
+                    <div class="ticker-item">Cooked Bread Studios</div>
+                    <div class="ticker-item">Alphabet CO</div>
+                    <div class="ticker-item">Onikatsu Studios</div>
+                    <div class="ticker-item">Kagura Studios</div>
+                    <div class="ticker-item">Cooked Bread Studios</div>
+                    <div class="ticker-item">Alphabet CO</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Showcase Section -->
+        <section class="section video-showcase" id="videoShowcase">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title ghost-text">DEMO_REEL</h2>
+                    <p class="section-subtitle ghost-text">Live system demonstrations</p>
+                </div>
+                <div class="section-intro-text">
+                    <p class="section-tagline">Efficient, Fast delivery, and excellent longevity.</p>
+                </div>
+                <div class="video-gallery" id="videoGallery">
+                    <!-- Videos will be populated by JS -->
+                    <div class="video-placeholder" id="videoPlaceholder" style="display: none;">
+                        <div class="placeholder-content">
+                            <div class="placeholder-icon">▶</div>
+                            <p class="placeholder-text">Loading video content...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02. STACK Section -->
+        <section class="section stack" id="stack">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title ghost-text">02. STACK</h2>
+                    <p class="section-subtitle ghost-text">I am a full stack Luau developer mostly developing in Backend (as its what i prefer). I deliver fast products, benefits even after contracts end, and a valuable asset to the team.</p>
+                </div>
+                <div class="arsenal-grid" id="arsenalGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. CONTACT Section -->
+        <section class="section contact" id="contact">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title ghost-text">03. CONTACT</h2>
+                    <p class="section-subtitle ghost-text">For further inquiries contact me on discord: auntjemiah</p>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-discord">
+                        <a href="https://discord.com/users/auntjemiah" target="_blank" rel="noopener" class="discord-link">
+                            <svg class="discord-logo" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C49.0165 48.2735 48.9502 48.4172 49.0118 48.5383C50.0539 50.6034 51.2713 52.5699 52.637 54.435C52.6958 54.5139 52.7938 54.5477 52.8861 54.5195C58.6468 52.7249 64.5294 50.0174 70.6024 45.5576C70.6555 45.5182 70.6882 45.459 70.6866 45.3942C71.1677 32.1443 68.6492 18.7309 60.1045 4.8978Z" fill="#5865F2"/>
+                                <path d="M23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z" fill="white"/>
+                            </svg>
+                            <span class="discord-username">auntjemiah</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Hardware Footer -->
+    <footer class="hardware-footer" id="hardwareFooter">
+        <div class="system-bus">
+            <div class="bus-item">
+                <span class="bus-label">CORE_TEMP:</span>
+                <span class="bus-value">OPTIMAL</span>
+            </div>
+            <div class="bus-item">
+                <span class="bus-label">MEMORY_LOAD:</span>
+                <span class="bus-value" id="memoryLoad">12%</span>
+            </div>
+            <div class="bus-item">
+                <span class="bus-label">CONNECTION_TYPE:</span>
+                <span class="bus-value">ENCRYPTED_UPLINK</span>
+            </div>
+            <div class="bus-item">
+                <span class="bus-label">STATUS:</span>
+                <span class="bus-value">
+                    <span class="led led-green" id="statusLED"></span>
+                    <span id="statusText">ACTIVE</span>
+                </span>
+            </div>
+            <div class="bus-item bus-github" id="githubCommit">
+                <span class="bus-label">LATEST_COMMIT:</span>
+                <span class="bus-value" id="commitMessage">Loading...</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Time-Travel Scrollbar -->
+    <div class="time-travel-scrollbar" id="timeTravelScrollbar">
+        <canvas class="scrollbar-3d-bg" id="scrollbar3DBg"></canvas>
+        <div class="scrollbar-track">
+            <div class="scrollbar-thumb" id="scrollbarThumb"></div>
+        </div>
+        <div class="scrollbar-commits" id="scrollbarCommits"></div>
+        <div class="scrollbar-directory" id="scrollbarDirectory">C:/Portfolio/Work/</div>
+        <div class="scrollbar-code" id="scrollbarCode"></div>
+    </div>
+
+    <!-- 3D Logic Node Map Modal -->
+    <div class="logic-node-modal" id="logicNodeModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>System Architecture</h3>
+                <button class="modal-close" id="logicNodeClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <canvas id="logicNodeCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal Help Modal -->
+    <div class="terminal-help-modal" id="terminalHelpModal">
+        <div class="help-overlay"></div>
+        <div class="help-content crt-window">
+            <div class="crt-header">
+                <span>ADMIN_COMMANDS.exe</span>
+                <button class="help-close" id="helpClose">&times;</button>
+            </div>
+            <div class="crt-body">
+                <div class="help-command">
+                    <span class="help-cmd">robux</span>
+                    <span class="help-desc">- Transform background particles into 3D Robux coins</span>
+                </div>
+                <div class="help-command">
+                    <span class="help-cmd">dark</span>
+                    <span class="help-desc">- Switch accent color to deep Blood Red</span>
+                </div>
+                <div class="help-command">
+                    <span class="help-cmd">help</span>
+                    <span class="help-desc">- Display this command list</span>
+                </div>
+                <div class="help-command">
+                    <span class="help-cmd">secret</span>
+                    <span class="help-desc">- Reveal hidden 3D object</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden 3D Object -->
+    <div class="hidden-3d-object" id="hidden3DObject"></div>
+
+    <!-- Deep Dive Case Study Modal -->
+    <div class="case-study-modal" id="caseStudyModal" role="dialog" aria-hidden="true">
+        <div class="case-study-overlay"></div>
+        <div class="case-study-container" id="caseStudyContainer">
+            <div class="case-study-header">
+                <h3 class="case-study-title" id="caseStudyTitle">Project Deep Dive</h3>
+                <button class="case-study-close" id="caseStudyClose">×</button>
+            </div>
+            <div class="case-study-body">
+                <div class="case-study-toggle">
+                    <button class="toggle-btn active" data-view="problem">The Problem</button>
+                    <button class="toggle-btn" data-view="solution">The Solution</button>
+                </div>
+                <div class="case-study-content">
+                    <div class="case-study-view active" id="problemView">
+                        <p id="problemText" class="case-study-text"></p>
+                    </div>
+                    <div class="case-study-view" id="solutionView">
+                        <div class="code-editor-container">
+                            <pre class="code-block"><code id="caseStudyCode" class="language-lua"></code></pre>
+                        </div>
+                        <div class="performance-graph-container">
+                            <canvas id="performanceGraph" width="800" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Snippet Modal -->
+    <div class="code-modal" id="codeModal" role="dialog" aria-hidden="true">
+        <div class="code-modal-overlay"></div>
+        <div class="code-modal-container">
+            <div class="code-modal-header">
+                <h3 class="code-modal-title" id="codeModalTitle">Code Snippet</h3>
+                <button class="code-modal-close" id="codeModalClose">×</button>
+            </div>
+            <div class="code-modal-body">
+                <pre class="code-block"><code id="codeModalContent" class="language-lua"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div class="skeleton-loader" id="skeletonLoader">
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+        <div class="skeleton-item"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

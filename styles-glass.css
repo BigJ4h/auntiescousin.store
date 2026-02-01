@@ -1,0 +1,293 @@
+/* ============================================
+   SKUEOMORPHIC FUTURISM - GLASS CONSOLE
+   ============================================ */
+
+/* Scanline & Noise Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.05) 2px,
+        rgba(255, 255, 255, 0.05) 4px
+    );
+    pointer-events: none;
+    z-index: 10000;
+    opacity: 0.5;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+}
+
+/* Glass Console Containers */
+.section-container,
+.nav-container,
+.arsenal-item,
+.archive-item,
+.uplink-form,
+.live-stats {
+    background: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Data-Viz Decorations */
+.data-viz-container {
+    position: fixed;
+    bottom: var(--space-lg);
+    left: var(--space-lg);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: var(--font-size-xs);
+}
+
+.coordinate-tracker {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-text-secondary);
+}
+
+.data-label {
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.data-value {
+    color: #10b981;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.data-separator {
+    color: var(--color-text-tertiary);
+    margin: 0 var(--space-xs);
+}
+
+.ram-monitor {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: var(--space-sm);
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    width: 120px;
+    height: 60px;
+    position: relative;
+}
+
+.ram-label {
+    position: absolute;
+    top: var(--space-xs);
+    left: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.ram-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+    padding-top: 20px;
+}
+
+.ram-bar {
+    flex: 1;
+    background: linear-gradient(180deg, #10b981 0%, var(--color-accent) 100%);
+    border-radius: 2px 2px 0 0;
+    min-height: 4px;
+    animation: ramPulse 2s ease-in-out infinite;
+}
+
+.ram-bar:nth-child(1) { animation-delay: 0s; }
+.ram-bar:nth-child(2) { animation-delay: 0.2s; }
+.ram-bar:nth-child(3) { animation-delay: 0.4s; }
+.ram-bar:nth-child(4) { animation-delay: 0.6s; }
+.ram-bar:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes ramPulse {
+    0%, 100% { opacity: 0.6; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+}
+
+/* Typography Updates */
+.section-title,
+.hero-title {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+}
+
+body,
+.section-subtitle,
+.hero-description {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Glitch Text Selection */
+::selection {
+    background: #10b981;
+    color: var(--color-bg-primary);
+    animation: glitchSelect 0.1s;
+}
+
+@keyframes glitchSelect {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px); }
+    75% { transform: translateX(1px); }
+}
+
+/* Mechanical Tab Switch */
+.main-content {
+    position: relative;
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section {
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: center;
+}
+
+.section.switching-out {
+    transform: scale(0.9) translateX(-20%);
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.section.switching-in {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 2;
+}
+
+.section.switching-in.active {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+}
+
+/* Biometric Button */
+.btn-uplink-send {
+    position: relative;
+    overflow: visible;
+}
+
+.biometric-ring {
+    position: absolute;
+    inset: -4px;
+    border: 2px solid var(--color-accent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 250ms;
+    pointer-events: none;
+}
+
+.btn-uplink-send.holding .biometric-ring {
+    opacity: 1;
+    animation: biometricFill 2s linear forwards;
+}
+
+@keyframes biometricFill {
+    0% {
+        border-top-color: var(--color-accent);
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        transform: rotate(0deg);
+    }
+    25% {
+        border-right-color: var(--color-accent);
+        transform: rotate(90deg);
+    }
+    50% {
+        border-bottom-color: var(--color-accent);
+        transform: rotate(180deg);
+    }
+    75% {
+        border-left-color: var(--color-accent);
+        transform: rotate(270deg);
+    }
+    100% {
+        border-color: #10b981;
+        transform: rotate(360deg);
+    }
+}
+
+/* Blueprint Overlay */
+.archive-item {
+    position: relative;
+}
+
+.blueprint-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-color: rgba(30, 58, 138, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.archive-item:hover .blueprint-overlay {
+    opacity: 1;
+    animation: blueprintFlicker 0.5s;
+}
+
+@keyframes blueprintFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Radar Chart Container */
+.radar-chart-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin: var(--space-2xl) 0;
+}
+
+#radarChartCanvas {
+    width: 100%;
+    height: 100%;
+}

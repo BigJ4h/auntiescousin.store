@@ -1,0 +1,404 @@
+/* ============================================
+   ADVANCED FEATURES - SHADERS & 3D
+   ============================================ */
+
+/* Vignetting & Grain */
+body {
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 10001;
+    mix-blend-mode: multiply;
+}
+
+/* Hardware Footer */
+.hardware-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--space-md) var(--space-lg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--font-size-xs);
+    z-index: 998;
+    overflow-x: auto;
+}
+
+.system-bus {
+    display: flex;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.bus-item {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    white-space: nowrap;
+}
+
+.bus-label {
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.bus-value {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.led {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: var(--space-xs);
+    animation: ledPulse 2s ease-in-out infinite;
+}
+
+.led-green {
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.led-red {
+    background: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+}
+
+@keyframes ledPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.bus-github {
+    margin-left: auto;
+}
+
+/* Time-Travel Scrollbar */
+.time-travel-scrollbar {
+    position: fixed;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    height: 60vh;
+    z-index: 997;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--font-size-xs);
+}
+
+.time-travel-scrollbar::before {
+    content: '';
+    position: absolute;
+    inset: -200px -200px;
+    background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.scrollbar-track {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.scrollbar-thumb {
+    position: absolute;
+    right: 0;
+    width: 2px;
+    height: 30%;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+    transition: top 0.1s linear;
+}
+
+.scrollbar-commits {
+    position: absolute;
+    right: var(--space-md);
+    top: 0;
+    width: 80px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding-top: var(--space-md);
+}
+
+.commit-hash {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    opacity: 0.5;
+    transition: opacity 0.3s, color 0.3s;
+}
+
+.commit-hash.active {
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+.scrollbar-directory {
+    position: absolute;
+    right: var(--space-md);
+    bottom: var(--space-lg);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+}
+
+.scrollbar-code {
+    position: absolute;
+    right: calc(var(--space-md) + 90px);
+    top: 0;
+    width: 200px;
+    height: 100%;
+    font-size: var(--font-size-xs);
+    color: var(--color-success);
+    font-family: 'JetBrains Mono', monospace;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* 3D Background Canvas */
+.scrollbar-3d-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 600px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+/* Logic Node Modal */
+.logic-node-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.logic-node-modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    position: relative;
+    width: 90vw;
+    height: 90vh;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: var(--space-lg);
+    z-index: 1;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    width: 100%;
+    height: calc(100% - 60px);
+}
+
+#logicNodeCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Terminal Help Modal */
+.terminal-help-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10003;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.terminal-help-modal.active {
+    display: flex;
+}
+
+.help-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.crt-window {
+    position: relative;
+    width: 600px;
+    max-width: 90vw;
+    background: #0a0a0a;
+    border: 2px solid #333;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.3),
+        inset 0 0 20px rgba(0, 255, 0, 0.1);
+    z-index: 1;
+    animation: crtFlicker 0.15s infinite;
+}
+
+@keyframes crtFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.98; }
+}
+
+.crt-header {
+    background: #1a1a1a;
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    font-family: 'JetBrains Mono', monospace;
+    color: #00ff00;
+}
+
+.help-close {
+    background: none;
+    border: none;
+    color: #00ff00;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.crt-body {
+    padding: var(--space-lg);
+    font-family: 'JetBrains Mono', monospace;
+    color: #00ff00;
+    line-height: 1.8;
+}
+
+.help-command {
+    margin-bottom: var(--space-md);
+    display: flex;
+    gap: var(--space-md);
+}
+
+.help-cmd {
+    color: #00ff00;
+    font-weight: 600;
+    min-width: 100px;
+}
+
+.help-desc {
+    color: #00ff88;
+}
+
+/* Hidden 3D Object */
+.hidden-3d-object {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    z-index: 10004;
+    display: none;
+    pointer-events: none;
+}
+
+.hidden-3d-object.active {
+    display: block;
+}
+
+/* Portal Hover Effect - WebGL Displacement */
+.archive-image {
+    position: relative;
+    transition: filter 0.3s;
+}
+
+.archive-item:hover .archive-image {
+    filter: blur(0.5px);
+}
+
+.portal-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.archive-item:hover .portal-canvas {
+    opacity: 1;
+}
+
+/* 3D Cube Container for Tab Transitions */
+.cube-container {
+    position: fixed;
+    inset: 0;
+    z-index: 10005;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.cube-container.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#cubeCanvas {
+    width: 100%;
+    height: 100%;
+}
