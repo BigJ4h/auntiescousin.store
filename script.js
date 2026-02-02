@@ -414,7 +414,7 @@ end`
             }
         });
         World.add(engine.world, mouseConstraint);
-    return damage
+
         // Mouse tracking
         document.addEventListener('mousemove', (e) => {
             const rect = $.physicsCanvas.getBoundingClientRect();
@@ -619,9 +619,9 @@ end`
                 <div class="process-number">${item.number}</div>
                 <h3 class="process-title">${item.title}</h3>
                 <p class="process-description">${item.description}</p>
-    )
-    tween:Play()
-    return tween
+            </div>
+        `).join('');
+
         // Scroll animations
         if (typeof ScrollTrigger !== 'undefined') {
             $.processTimeline.querySelectorAll('.process-item').forEach((item, index) => {
@@ -739,15 +739,15 @@ end`
                 }
                 break;
         }
-            },
-            {
+    }
+
     function showFormError(field, message) {
         const input = document.getElementById(field);
         const error = document.getElementById(field + 'Error');
         if (input) input.classList.add('error');
-        if (error) error.textContent = message;Rate Limiting'],
-                stats: ['99% exploit prevention', 'Sub-50ms latency', 'Scalable architecture'],
-                problem: 'Exploiters were ruining the game economy by spawning items and currency. The studio needed protection that wouldn\'t affect legitimate players.',
+        if (error) error.textContent = message;
+    }
+
     function clearFormError(field) {
         const input = document.getElementById(field);
         const error = document.getElementById(field + 'Error');
@@ -795,8 +795,8 @@ end`
                     }
                 });
             });
-        }ion RateLimiter:Check(player, action, limit, window)
-    local key = player.UserId .. action
+        }
+
         // Stack items
         if ($.stackGrid) {
             gsap.utils.toArray('.stack-item').forEach((item, index) => {
@@ -815,8 +815,7 @@ end`
                 });
             });
         }
-    }y], 1, -1 do
-        if now - self.requests[key][i] > window then
+    }
     // Micro-interactions
     function initMicroInteractions() {
         // Button press effect
@@ -835,20 +834,11 @@ end`
 
     // Advanced Loading Screen with Stages
     function initPreloader() {
-        // #region agent log
-        console.log('[DEBUG] initPreloader called', {preloaderExists:!!$.preloader,preloaderPercentageExists:!!$.preloaderPercentage});
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:837',message:'initPreloader called',data:{preloaderExists:!!$.preloader,preloaderPercentageExists:!!$.preloaderPercentage},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
-        
         // Get elements directly if not in $ object (fixes timing issue)
         const preloader = $.preloader || document.getElementById('preloader');
         const preloaderPercentage = $.preloaderPercentage || document.getElementById('preloaderPercentage');
         
         if (!preloader || !preloaderPercentage) {
-            // #region agent log
-            console.error('[DEBUG] Early return - elements missing', {preloader:preloader,preloaderPercentage:preloaderPercentage});
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:840',message:'Early return - elements missing',data:{preloader:preloader,preloaderPercentage:preloaderPercentage},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
             showAllSections();
             return;
         }
@@ -910,15 +900,7 @@ end`
         let currentStage = 0;
 
         let progress = 0;
-        // #region agent log
-        console.log('[DEBUG] About to create setInterval', {progress:progress,barFillExists:!!barFill});
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:896',message:'About to create setInterval',data:{progress:progress,barFillExists:!!barFill},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
         const interval = setInterval(() => {
-            // #region agent log
-            console.log('[DEBUG] Interval callback executing', {progressBefore:progress});
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:897',message:'Interval callback executing',data:{progressBefore:progress},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             let increment = 2;
             if (progress >= 70) increment = 5; // Speed up at stage 3
             
@@ -926,46 +908,34 @@ end`
             if (progress >= 100) {
                 progress = 100;
                 clearInterval(interval);
-                // #region agent log
-                fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:904',message:'Interval cleared at 100%',data:{progress:progress},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-                // #endregion
             }
 
             // Update stage
-            stages.forEach((stage, index) => {
-                if (progress >= stage.start && progress < stage.end && index >= currentStage) {
-                    currentStage = index;
-                    const logLine = document.querySelector('.log-line[data-stage="' + stage.line + '"]');
+            for (let i = 0; i < stages.length; i++) {
+                const stage = stages[i];
+                if (progress >= stage.start && progress < stage.end && i >= currentStage) {
+                    currentStage = i;
+                    const selector = '.log-line[data-stage="' + stage.line + '"]';
+                    const logLine = document.querySelector(selector);
                     if (logLine) {
-                        document.querySelectorAll('.log-line').forEach(function(l) {
-                            l.style.display = 'none';
-                        });
+                        const allLogLines = document.querySelectorAll('.log-line');
+                        for (let j = 0; j < allLogLines.length; j++) {
+                            allLogLines[j].style.display = 'none';
+                        }
                         logLine.style.display = 'block';
                         logLine.style.opacity = '1';
                     }
                 }
-            });
+            }
 
             // Update 3D bar
             if (barFill) {
                 barFill.style.width = progress + '%';
             }
 
-            // #region agent log
-            const preloaderPercentageText = preloaderPercentage ? preloaderPercentage.textContent : 'N/A';
-            console.log('[DEBUG] Before updating percentage', {progress:progress,preloaderPercentageExists:!!preloaderPercentage,preloaderPercentageText:preloaderPercentageText});
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:924',message:'Before updating percentage text',data:{progress:progress,preloaderPercentageExists:!!preloaderPercentage,preloaderPercentageText:preloaderPercentageText},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
-            
             if (preloaderPercentage) {
                 preloaderPercentage.textContent = Math.floor(progress) + '%';
             }
-            
-            // #region agent log
-            const preloaderPercentageTextAfter = preloaderPercentage ? preloaderPercentage.textContent : 'N/A';
-            console.log('[DEBUG] After updating percentage', {progress:progress,preloaderPercentageText:preloaderPercentageTextAfter});
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:927',message:'After updating percentage text',data:{progress:progress,preloaderPercentageText:preloaderPercentageTextAfter},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
 
             if (progress >= 100) {
             setTimeout(() => {
@@ -994,10 +964,6 @@ end`
                 }, 500);
             }
         }, 50);
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:951',message:'setInterval created successfully',data:{intervalId:interval},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
     }
 
 
@@ -2941,19 +2907,7 @@ end`
 
     // Initialize
     function init() {
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:2901',message:'About to call initPreloader',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-        // #endregion
-        try {
-            initPreloader();
-            // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:2904',message:'initPreloader completed without error',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
-        } catch (error) {
-            // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:2907',message:'initPreloader threw error',data:{error:error.message,stack:error.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
-        }
+        initPreloader();
         initCustomCursor();
         initMagneticButtons();
         initFluidBackground();
@@ -2984,17 +2938,35 @@ end`
         initLogicNodeMap();
         initPortalHover();
         init3DCubeTransitions();
-        // Hover effects
+        // Hover effects for cursor
+        const hoverElements = document.querySelectorAll('a, button, .project-card, .bento-item, .stack-item, .video-card, .nav-link, .sidebar-link');
+        for (let i = 0; i < hoverElements.length; i++) {
+            const el = hoverElements[i];
+            el.addEventListener('mouseenter', function() {
+                if ($.cursor) {
+                    $.cursor.classList.add('hover');
+                }
+            });
+            el.addEventListener('mouseleave', function() {
+                if ($.cursor) {
+                    $.cursor.classList.remove('hover');
+                }
+            });
+        }
+
         // Case study modal close
         if ($.caseStudyClose) {
             $.caseStudyClose.addEventListener('click', closeCaseStudy);
         }
         if ($.caseStudyModal) {
-            $.caseStudyModal.querySelector('.case-study-overlay')?.addEventListener('click', closeCaseStudy);
-        }orEach(el => {
-            el.addEventListener('mouseenter', () => {
+            const overlay = $.caseStudyModal.querySelector('.case-study-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', closeCaseStudy);
+            }
+        }
+
         // Fallback: show sections after 3 seconds if preloader didn't handle it
-            setTimeout(() => {
+        setTimeout(function() {
             if ($.preloader && !$.preloader.classList.contains('hidden')) {
                 // Preloader is still showing, force hide and show content
                 $.preloader.classList.add('hidden');
@@ -3004,19 +2976,6 @@ end`
                 showAllSections();
             }
         }, 3000);
-            el.addEventListener('mouseleave', () => {
-                $.cursor.classList.remove('hover');
-    // Start when DOM is ready
-            });
-        });
-
-        // Click effect
-        document.addEventListener('mousedown', () => {
-            $.cursor.classList.add('click');
-        });
-        document.addEventListener('mouseup', () => {
-            $.cursor.classList.remove('click');
-        });
     }
 
     // Physics Background
@@ -3501,20 +3460,11 @@ end`
 
     // Advanced Loading Screen with Stages
     function initPreloader() {
-        // #region agent log
-        console.log('[DEBUG] initPreloader called', {preloaderExists:!!$.preloader,preloaderPercentageExists:!!$.preloaderPercentage});
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:837',message:'initPreloader called',data:{preloaderExists:!!$.preloader,preloaderPercentageExists:!!$.preloaderPercentage},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
-        
         // Get elements directly if not in $ object (fixes timing issue)
         const preloader = $.preloader || document.getElementById('preloader');
         const preloaderPercentage = $.preloaderPercentage || document.getElementById('preloaderPercentage');
         
         if (!preloader || !preloaderPercentage) {
-            // #region agent log
-            console.error('[DEBUG] Early return - elements missing', {preloader:preloader,preloaderPercentage:preloaderPercentage});
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:840',message:'Early return - elements missing',data:{preloader:preloader,preloaderPercentage:preloaderPercentage},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
             showAllSections();
             return;
         }
@@ -3576,15 +3526,7 @@ end`
         let currentStage = 0;
 
         let progress = 0;
-        // #region agent log
-        console.log('[DEBUG] About to create setInterval', {progress:progress,barFillExists:!!barFill});
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:896',message:'About to create setInterval',data:{progress:progress,barFillExists:!!barFill},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
         const interval = setInterval(() => {
-            // #region agent log
-            console.log('[DEBUG] Interval callback executing', {progressBefore:progress});
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:897',message:'Interval callback executing',data:{progressBefore:progress},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             let increment = 2;
             if (progress >= 70) increment = 5; // Speed up at stage 3
             
@@ -3592,32 +3534,34 @@ end`
             if (progress >= 100) {
                 progress = 100;
                 clearInterval(interval);
-                // #region agent log
-                fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:904',message:'Interval cleared at 100%',data:{progress:progress},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-                // #endregion
             }
 
             // Update stage
-            stages.forEach((stage, index) => {
-                if (progress >= stage.start && progress < stage.end && index >= currentStage) {
-                    currentStage = index;
-                    const logLine = document.querySelector('.log-line[data-stage="' + stage.line + '"]');
+            for (let i = 0; i < stages.length; i++) {
+                const stage = stages[i];
+                if (progress >= stage.start && progress < stage.end && i >= currentStage) {
+                    currentStage = i;
+                    const selector = '.log-line[data-stage="' + stage.line + '"]';
+                    const logLine = document.querySelector(selector);
                     if (logLine) {
-                        document.querySelectorAll('.log-line').forEach(function(l) {
-                            l.style.display = 'none';
-                        });
+                        const allLogLines = document.querySelectorAll('.log-line');
+                        for (let j = 0; j < allLogLines.length; j++) {
+                            allLogLines[j].style.display = 'none';
+                        }
                         logLine.style.display = 'block';
                         logLine.style.opacity = '1';
                     }
                 }
-            });
+            }
 
             // Update 3D bar
             if (barFill) {
                 barFill.style.width = progress + '%';
             }
 
-            $.preloaderPercentage.textContent = Math.floor(progress) + '%';
+            if (preloaderPercentage) {
+                preloaderPercentage.textContent = Math.floor(progress) + '%';
+            }
 
             if (progress >= 100) {
                 setTimeout(() => {
@@ -3646,10 +3590,6 @@ end`
                 }, 500);
             }
         }, 50);
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:951',message:'setInterval created successfully',data:{intervalId:interval},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
     }
 
 
@@ -5364,39 +5304,6 @@ end`
         animate();
     }
 
-    // Video Gallery Configuration
-    // Add your video files to the /videos folder and update these paths
-    const videoConfig = [
-        {
-            id: 1,
-            title: 'Combat System Architecture',
-            description: 'Real-time hit detection system optimized for 100+ concurrent players. Features sub-10ms response times and intelligent caching to eliminate redundant calculations.',
-            src: 'videos/rec1.mp4',
-            thumbnail: null
-        },
-        {
-            id: 2,
-            title: 'Economy & Data Persistence',
-            description: 'Bulletproof transaction system processing thousands of daily operations. Zero data loss architecture with automatic retry logic and fail-safe mechanisms.',
-            src: 'videos/rec2.mp4',
-            thumbnail: null
-        },
-        {
-            id: 3,
-            title: 'Directional Dashing System',
-            description: 'Advanced movement mechanics with directional dashing capabilities. Smooth character control with optimized physics calculations for responsive gameplay.',
-            src: 'videos/rec3.mp4',
-            thumbnail: null
-        },
-        {
-            id: 4,
-            title: 'Networking & Optimization',
-            description: 'Advanced RemoteEvent handling with custom bridge libraries. Bandwidth optimization techniques reducing overhead by 40% while maintaining real-time synchronization.',
-            src: 'videos/rec4.mp4',
-            thumbnail: null
-        }
-    ];
-
     // Render Video Gallery
     function renderVideoGallery() {
         const gallery = document.getElementById('videoGallery');
@@ -5594,19 +5501,7 @@ end`
 
     // Initialize
     function init() {
-        // #region agent log
-        fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:2901',message:'About to call initPreloader',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-        // #endregion
-        try {
-            initPreloader();
-            // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:2904',message:'initPreloader completed without error',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
-        } catch (error) {
-            // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/63fbd4d8-d923-4c82-b553-72e23cf80bb2',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:2907',message:'initPreloader threw error',data:{error:error.message,stack:error.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
-        }
+        initPreloader();
         initCustomCursor();
         initMagneticButtons();
         initFluidBackground();
